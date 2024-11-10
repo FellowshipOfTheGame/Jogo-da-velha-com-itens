@@ -5,15 +5,19 @@ public class PlayerItems : MonoBehaviour
 {
     [SerializeField] private PlayerManager playerManager;
     private List<ItemSelectButton> playerItems = new();
-    
-    public void AddItemToCurrentPlayer(ItemSelectButton item)
-    {
-        playerItems.Add(item);
-        var button = Instantiate(item, transform);
-    }
 
-    public void RemoveItemFromCurrentPlayer(ItemSelectButton item)
+    public void ToggleItemSelected(ItemSelectButton item)
     {
-        playerItems.Remove(item);
+        var index = playerItems.IndexOf(item);
+        if (index == -1)
+        {
+            playerItems.Add(item);
+            Instantiate(item, transform);
+        }
+        else
+        {
+            Destroy(transform.GetChild(index).gameObject);
+            playerItems.RemoveAt(index);
+        }
     }
 }
