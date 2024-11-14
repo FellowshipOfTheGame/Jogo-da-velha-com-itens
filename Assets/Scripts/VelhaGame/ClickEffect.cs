@@ -7,7 +7,7 @@ public static class ClickEffect
         {
                 NormalClick,
                 Eraser,
-                Power3,
+                Protect,
                 Power4,
                 //...
         }

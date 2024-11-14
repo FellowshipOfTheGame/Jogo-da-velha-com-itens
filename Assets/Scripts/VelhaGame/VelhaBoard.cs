@@ -8,32 +8,41 @@ using Color = UnityEngine.Color;
 
 public class VelhaBoard : MonoBehaviour
 {
-    private RectTransform rectTransform;
+    private RectTransform _rectTransform;
     public GameObject squarePrefab;
 
-    public enum SquareState{
+    public enum SquareState
+    {
         Player1,
         Player2,
         None,
         Busy
     }
 
-    private GameObject[,] _squares; 
+    private VelhaSquare[,] _squares; 
     private SquareState[,] _squareStates;
+    
+    private uint _dimension;
+    private float _gap = 1.2f;
 
     private void OnEnable(){
-        rectTransform = transform as RectTransform;
-        Setup(3,1.1f);
+        _rectTransform = transform as RectTransform;
+        Setup(3,_gap);
     }
+
+    private bool AccessibleSquare(int x, int y) =>
+         x >= 0 && x < _dimension && y >= 0 && y < _dimension;
 
     void Setup(uint dimension,float gap)
     {
-        _squares = new GameObject[dimension,dimension];
+        _squares = new VelhaSquare[dimension,dimension];
         _squareStates = new SquareState[dimension,dimension];
+
+        _dimension = dimension;
         
         //BoardSize
-        float width = rectTransform.sizeDelta[0];
-        float height = rectTransform.sizeDelta[1];
+        float width = _rectTransform.sizeDelta[0];
+        float height = _rectTransform.sizeDelta[1];
         
         //Calculates the square size
         float sqsize = math.max(
@@ -51,7 +60,7 @@ public class VelhaBoard : MonoBehaviour
                 
                 //Sets Square Up
                 square.GetComponent<VelhaSquare>().Setup(i,j);
-                _squares[i, j] = square;
+                _squares[i, j] = square.GetComponent<VelhaSquare>();
                 _squareStates[i,j] = SquareState.None;
                 
                 //Sets size and position of each square
@@ -87,10 +96,41 @@ public class VelhaBoard : MonoBehaviour
         //TODO Turn passes?
         //ClickEffect.ClickActor();
     }
+    
+    public void Diluvium()
+    {
+        int n = transform.childCount;
+        for (int i = 0; i < n; i++)
+            Destroy(transform.GetChild(i).gameObject);
+        
+        SquareState[,] temp = new SquareState[_dimension,_dimension];
+        for (int i = 0; i < _dimension; i++)
+            for (int j = 0; j < _dimension; j++)
+                if (_squares[i, j].isProtected)
+                    temp[i, j] = _squareStates[i, j];
+                else
+                    temp[i, j] = SquareState.None;
+        
+        Setup(_dimension,_gap);
+
+        for (int i = 0; i < _dimension; i++)
+            for (int j = 0; j < _dimension; j++)
+            if (temp[i, j] != SquareState.None)
+            {
+                _squareStates[i,j] = temp[i, j];
+                UpdateSquare(i,j);
+            }
+    }
+
+    public void SetProtected(int x, int y)
+    {
+        _squares[x, y].isProtected = true;
+        UpdateSquare(x,y);
+    }
 
     private void UpdateSquare(int x, int y)
     {
-        var squareImage = _squares[x, y]?.GetComponent<Image>();
+        var squareImage = _squares[x, y].gameObject.GetComponent<Image>();
         switch (_squareStates[x, y])
         {
             case SquareState.Player1:

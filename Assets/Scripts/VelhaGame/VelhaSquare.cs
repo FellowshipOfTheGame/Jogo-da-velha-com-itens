@@ -9,6 +9,8 @@ public class VelhaSquare : MonoBehaviour
     private VelhaBoard _parentBoard;
     private bool _isExpanded;
     
+    public bool isProtected;
+    
     public void Setup(int x, int y)
     {
         _parentBoard = GetComponentInParent<VelhaBoard>();
@@ -30,6 +32,10 @@ public class VelhaSquare : MonoBehaviour
             case ClickEffect.ClickEffectType.Eraser:
                 _parentBoard.Eraser(x,y);
                 break;
+            case ClickEffect.ClickEffectType.Protect:
+                _parentBoard.SetProtected(x, y);
+                break;
+            
         }
         
         ClickEffect.ResetSelectionMode();
