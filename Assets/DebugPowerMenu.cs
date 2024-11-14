@@ -14,6 +14,12 @@ public class DebugPowerMenu : MonoBehaviour
             case 1:
                 ClickEffect.SetClickMode(ClickEffect.ClickEffectType.Eraser);
                 break;
+            case 2:
+                ClickEffect.SetClickMode(ClickEffect.ClickEffectType.Protect);
+                break;
+            case 3:
+                FindFirstObjectByType<VelhaBoard>().Diluvium();
+                break;
         }
     }
 }
