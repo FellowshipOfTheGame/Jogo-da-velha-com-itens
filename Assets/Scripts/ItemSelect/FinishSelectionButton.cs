@@ -16,7 +16,7 @@ public class FinishSelectionButton : MonoBehaviour
         if (!firstPlayerFinished)
         {
             firstPlayerFinished = true;
-            ItemManager.ChangePlayer();
+            ItemManager.FinishSelection();
         }
         else
         {

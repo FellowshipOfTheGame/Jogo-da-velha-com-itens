@@ -5,27 +5,25 @@ public class ItemSelectButton : MonoBehaviour
 {
     public PlayerItems PlayerItems;
     public ItemBase Item;
-    // private bool isSelected;
+    private bool isSelected;
     private void Start () 
     {
         Button btn = gameObject.GetComponent<Button>();
-        btn.onClick.AddListener(ToggleItemSelected);
+        btn.onClick.AddListener(() => PlayerItems.ToggleItemSelected(this));
     }
 
-    private void ToggleItemSelected() 
+    public void ToggleItemSelectedColor() 
     {
-        PlayerItems.ToggleItemSelected(this);
-        // TODO highlight do botao
-        // if (isSelected)
-        // {
-        //     isSelected = false;
-        //     // TODO tirar o highlight
-        // }
-        // else
-        // {
-        //     isSelected = true;
-        //     // TODO highlight no item
-        // }
+        if (isSelected)
+        {
+            isSelected = false;
+            gameObject.GetComponent<Image>().color = Color.white;
+        }
+        else
+        {
+            isSelected = true;
+            gameObject.GetComponent<Image>().color = Color.red;
+        }
     }
     
     // overrides para verificar se os botoes sao iguais dentro de uma list

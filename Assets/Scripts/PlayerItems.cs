@@ -1,23 +1,24 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerItems : MonoBehaviour
 {
     [SerializeField] private PlayerManager playerManager;
-    private List<ItemSelectButton> playerItems = new();
+    public List<ItemSelectButton> ConfirmedItems  { get; } = new();
+    private ItemSelectButton currentSelectedItem;
 
     public void ToggleItemSelected(ItemSelectButton item)
     {
-        var index = playerItems.IndexOf(item);
-        if (index == -1)
-        {
-            playerItems.Add(item);
-            Instantiate(item, transform);
-        }
-        else
-        {
-            Destroy(transform.GetChild(index).gameObject);
-            playerItems.RemoveAt(index);
-        }
+        currentSelectedItem?.ToggleItemSelectedColor();
+        currentSelectedItem = item;
+        currentSelectedItem.ToggleItemSelectedColor();
+    }
+
+    public void ConfirmItemSelection()
+    {
+        ConfirmedItems.Add(currentSelectedItem);
+        Instantiate(currentSelectedItem.GetComponent<Button>().image, transform);
+        currentSelectedItem = null;
     }
 }
