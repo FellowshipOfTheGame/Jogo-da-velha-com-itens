@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3090249476652039621}
   - component: {fileID: 1994472277393468664}
   - component: {fileID: 2635965362039178629}
-  - component: {fileID: 1262049022557658370}
+  - component: {fileID: -5724591172783841325}
   m_Layer: 5
   m_Name: ItemSelectButton
   m_TagString: Untagged
@@ -122,7 +122,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &1262049022557658370
+--- !u!114 &-5724591172783841325
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa4d8e9c2930afc449102342763151d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerManager: {fileID: 0}
+  PlayerItems: {fileID: 0}
   Item: {fileID: 0}
 --- !u!1 &4332259144030586071
 GameObject:

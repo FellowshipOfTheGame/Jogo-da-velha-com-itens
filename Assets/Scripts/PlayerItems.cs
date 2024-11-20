@@ -2,23 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerItems : MonoBehaviour
+public abstract class PlayerItems : MonoBehaviour
 {
-    [SerializeField] private PlayerManager playerManager;
-    public List<ItemSelectButton> ConfirmedItems  { get; } = new();
-    private ItemSelectButton currentSelectedItem;
+    protected ItemButton currentSelectedItem;
+    [SerializeField] protected PlayerManager playerManager;
+    public List<ItemButton> Items  { get; } = new();
 
-    public void ToggleItemSelected(ItemSelectButton item)
-    {
-        currentSelectedItem?.ToggleItemSelectedColor();
-        currentSelectedItem = item;
-        currentSelectedItem.ToggleItemSelectedColor();
-    }
+    public abstract void ToggleItemSelected(ItemButton item);
 
-    public void ConfirmItemSelection()
-    {
-        ConfirmedItems.Add(currentSelectedItem);
-        Instantiate(currentSelectedItem.GetComponent<Button>().image, transform);
-        currentSelectedItem = null;
-    }
+    public abstract void ConfirmItemSelection();
 }

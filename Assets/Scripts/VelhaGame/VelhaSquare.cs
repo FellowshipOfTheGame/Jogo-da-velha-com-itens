@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class VelhaSquare : MonoBehaviour
 {
-    private (int x, int y) _coordenates;
+    private (int x, int y) _coordinates;
     private VelhaBoard _parentBoard;
     private bool _isExpanded;
     
@@ -16,7 +16,7 @@ public class VelhaSquare : MonoBehaviour
         _parentBoard = GetComponentInParent<VelhaBoard>();
         if (_parentBoard == null) throw new Exception("VelhaSquare doesn't have a VelhaBoard parent");
         
-        _coordenates = (x, y);
+        _coordinates = (x, y);
         GetComponent<Button>().onClick.AddListener(
             () => ResolveClick(x,y));
     }

@@ -2,18 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class ItemManager : MonoBehaviour
 {
     [SerializeField] private List<ItemBase> availableItems;
     [SerializeField] private ItemSelectButton itemSelectButton;
     [SerializeField] private PlayerManager playerManager;
+    [SerializeField] private SceneSwapper sceneSwapper;
+    
     private PlayerItems currentPlayerItems;
     private bool firstPlayerFinished;
     private void Start()
     {
         currentPlayerItems = playerManager.GetCurrentPlayerItems();
-        var selectedItems = currentPlayerItems.ConfirmedItems.Select(i => i.Item.Name).ToArray();
+        var selectedItems = currentPlayerItems.Items.Select(i => i.Item.Name).ToArray();
         // criar o botoes para selecionar os itens a partir dos itens disponiveis
         foreach (var item in availableItems)
         {
@@ -31,6 +34,9 @@ public class ItemManager : MonoBehaviour
     public void ConfirmSelection()
     {
         // passa o turno e reseta a tela de selecionar os itens
+        if (currentPlayerItems is null)
+            return;
+        
         currentPlayerItems.ConfirmItemSelection();
         if (!firstPlayerFinished)
         {
@@ -47,7 +53,7 @@ public class ItemManager : MonoBehaviour
     {
         if (firstPlayerFinished)
         {
-            // passar para a proxima cena
+            sceneSwapper.FinishItemSelection();
             return;
         }
 
