@@ -8,7 +8,19 @@ public abstract class PlayerItems : MonoBehaviour
     [SerializeField] protected PlayerManager playerManager;
     public List<ItemButton> Items  { get; } = new();
 
-    public abstract void ToggleItemSelected(ItemButton item);
+    public void ToggleItemSelected(ItemButton item)
+    {
+        currentSelectedItem?.ToggleItemSelected();
+        currentSelectedItem = item;
+        currentSelectedItem.ToggleItemSelected();   
+    }
 
-    public abstract void ConfirmItemSelection();
+    public ItemBase ConfirmItemSelection()
+    {
+        Items.Add(currentSelectedItem);
+        Instantiate(currentSelectedItem.GetComponent<Button>().image, transform);
+        var toReturn = currentSelectedItem.Item;
+        currentSelectedItem = null;
+        return toReturn;
+    }
 }

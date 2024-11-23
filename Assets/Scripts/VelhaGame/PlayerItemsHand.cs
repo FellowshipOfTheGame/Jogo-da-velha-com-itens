@@ -1,14 +1,27 @@
+using System;
 using UnityEngine;
 
 public class PlayerItemsHand : PlayerItems
 {
-    public override void ToggleItemSelected(ItemButton item)
+    [SerializeField] private ItemCard _itemCardPrefab;
+    [SerializeField] private PlayerDeck _playerDeck;
+
+    private void Start()
     {
-        throw new System.NotImplementedException();
+        for (var i = 0; i < _startingHandSize; i++)
+        {
+            DrawCard();
+        }
+        
     }
 
-    public override void ConfirmItemSelection()
+    private void DrawCard()
     {
-        throw new System.NotImplementedException();
+        var card = Instantiate(_itemCardPrefab, transform).GetComponent<ItemCard>();
+        card.Item = _playerDeck.DrawCard();
+        card.PlayerItems = this;
+        Items.Add(card);
     }
+
+    [SerializeField] private int _startingHandSize = 5;
 }

@@ -4,6 +4,10 @@ using UnityEngine.UI;
 
 public class VelhaSquare : MonoBehaviour
 {
+    private VelhaBoard _parentBoard;
+    
+    public bool isProtected;
+    
     private SquareState _squareState = SquareState.None;
     public SquareState SquareState
     {
@@ -15,41 +19,35 @@ public class VelhaSquare : MonoBehaviour
         }
     }
     
-
-    private (int x, int y) _coordinates;
-    private VelhaBoard _parentBoard;
-    private bool _isExpanded;
-    
-    public bool isProtected;
-    
     public void Setup(int x, int y)
     {
         _parentBoard = GetComponentInParent<VelhaBoard>();
         if (_parentBoard == null) throw new Exception("VelhaSquare doesn't have a VelhaBoard parent");
         
-        _coordinates = (x, y);
         GetComponent<Button>().onClick.AddListener(
             () => ResolveClick(x,y));
     }
 
     private void ResolveClick(int x, int y)
     {
-        ClickEffect.ClickEffectType mode = ClickEffect.GetCurrSelectionMode();
-        
-        switch (mode){
-            case ClickEffect.ClickEffectType.NormalClick:
-                _parentBoard.SquareClick(x,y,ClickEffect.GetCurrPlayer());
-                break;
-            case ClickEffect.ClickEffectType.Eraser:
-                _parentBoard.Eraser(x,y);
-                break;
-            case ClickEffect.ClickEffectType.Protect:
-                _parentBoard.SetProtected(x, y);
-                break;
-            
-        }
-        
-        ClickEffect.ResetSelectionMode();
+        _parentBoard.SquareClick(x, y);
+        return;
+        // ClickEffect.ClickEffectType mode = ClickEffect.GetCurrSelectionMode();
+        //
+        // switch (mode){
+        //     case ClickEffect.ClickEffectType.NormalClick:
+        //         _parentBoard.SquareClick(x,y,ClickEffect.GetCurrPlayer());
+        //         break;
+        //     case ClickEffect.ClickEffectType.Eraser:
+        //         _parentBoard.Eraser(x,y);
+        //         break;
+        //     case ClickEffect.ClickEffectType.Protect:
+        //         _parentBoard.SetProtected(x, y);
+        //         break;
+        //     
+        // }
+        //
+        // ClickEffect.ResetSelectionMode();
     }
     
     private void UpdateSquare()

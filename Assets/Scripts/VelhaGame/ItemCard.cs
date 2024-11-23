@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemSelectButton : ItemButton
+public class ItemCard : ItemButton
 {
+    
 }

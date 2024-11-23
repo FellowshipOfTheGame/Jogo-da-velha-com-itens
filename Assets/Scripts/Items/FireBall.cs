@@ -7,7 +7,7 @@ public class FireBall : ItemBase
     public override string Explanation => "Destroi a peça de uma casa";
     public override int Cost => 4;
 
-    public override void Activate()
+    public override bool Activate(VelhaBoard board, VelhaSquare square, Player player)
     {
         throw new System.NotImplementedException();
     }

@@ -8,9 +8,9 @@ using Color = UnityEngine.Color;
 
 public class VelhaBoard : MonoBehaviour
 {
+    [SerializeField] private PlayerManager playerManager;
     private RectTransform _rectTransform;
     public GameObject squarePrefab;
-
 
     private VelhaSquare[,] _squares;
     
@@ -19,13 +19,13 @@ public class VelhaBoard : MonoBehaviour
 
     private void OnEnable(){
         _rectTransform = transform as RectTransform;
-        Setup(3,_gap);
+        DrawSquares(3,_gap);
     }
 
     private bool AccessibleSquare(int x, int y) =>
          x >= 0 && x < _dimension && y >= 0 && y < _dimension;
 
-    void Setup(uint dimension,float gap)
+    private void DrawSquares(uint dimension,float gap)
     {
         _squares = new VelhaSquare[dimension,dimension];
         _dimension = dimension;
@@ -41,8 +41,8 @@ public class VelhaBoard : MonoBehaviour
                 var square = Instantiate(squarePrefab,transform);
                 
                 //Sets Square Up
-                square.GetComponent<VelhaSquare>().Setup(i,j);
                 _squares[i, j] = square.GetComponent<VelhaSquare>();
+                _squares[i, j].Setup(i,j);
                 
                 //Sets size and position of each square
                 var squareRectTransform = square.GetComponent<RectTransform>();
@@ -71,17 +71,23 @@ public class VelhaBoard : MonoBehaviour
 
 
     //Every Move is Implemented In the Board
-    public void SquareClick(int x, int y, ClickEffect.ClickActor clickActor)
+    public void SquareClick(int x, int y)
     {
-        if (_squares[x,y].SquareState != SquareState.None) return;
+        ItemBase item = playerManager.GetCurrentPlayerItems().ConfirmItemSelection();
+        if (!item.Activate(this, _squares[x, y], playerManager.TurnPlayer))
+        {
+            return;
+        }
         
-        if (clickActor == ClickEffect.ClickActor.Player1)
-            _squares[x,y].SquareState = SquareState.X;
-        else if(clickActor == ClickEffect.ClickActor.Player2)
-            _squares[x,y].SquareState = SquareState.O;
+        // if (_squares[x,y].SquareState != SquareState.None) return;
+        //
+        // if (clickActor == ClickEffect.ClickActor.Player1)
+        //     _squares[x,y].SquareState = SquareState.X;
+        // else if(clickActor == ClickEffect.ClickActor.Player2)
+        //     _squares[x,y].SquareState = SquareState.O;
         
         CheckWin();
-        ClickEffect.PassTurn();
+        playerManager.PassTurn();
     }
 
     public void Eraser(int x, int y)
@@ -106,7 +112,7 @@ public class VelhaBoard : MonoBehaviour
                 else
                     temp[i, j] = SquareState.None;
         
-        Setup(_dimension,_gap);
+        DrawSquares(_dimension,_gap);
 
         for (int i = 0; i < _dimension; i++)
             for (int j = 0; j < _dimension; j++)
@@ -121,67 +127,88 @@ public class VelhaBoard : MonoBehaviour
         _squares[x, y].isProtected = true;
     }
 
+    
+# region win checking
     private void CheckWin()
     {
-        SquareState _checkWin(SquareState last, int i, int j, ref int count)
-        {
-            last &= _squares[i, j].SquareState;
-            if (last == SquareState.None)
-            {
-                last = _squares[i, j].SquareState;
-                count = 1;
-            }
-            else
-                count++;
+        CheckWinHorizontal();
+        CheckWinVertical();
+        CheckWinPrincipalDiagonal();
+        CheckWinSecondaryDiagonal();
+    }
 
-            if (count == 3)
-            {
-                Win(last);
-            }
-
-            return last;
-        }
-
-        for (int i = 0; i < _dimension; i++)
-        {
-            SquareState last = SquareState.None;
-            int count = 0;
-            for (int j = 0; j < _dimension; j++)
-            {
-                last = _checkWin(last, i, j, ref count);
-            }
-        }
-
-        for (int j = 0; j < _dimension; j++)
-        {
-            SquareState last = SquareState.None;
-            int count = 0;
-            for (int i = 0; i < _dimension; i++)
-            {
-                last = _checkWin(last, i, j, ref count);
-            }
-        }
-    
-        for (int k = 0; k < _dimension; k++)
-        {
-            SquareState last = SquareState.None;
-            int count = 0;
-            for (int i = k, j = 0; i < _dimension; i++, j++)
-            {
-                last = _checkWin(last, i, j, ref count);
-            }
-        }
-        
+    private void CheckWinSecondaryDiagonal()
+    {
         for (int k = 0; k < _dimension; k++)
         {
             SquareState last = SquareState.None;
             int count = 0;
             for (int i = k, j = 0; i >= 0; i--, j++)
             {
-                last = _checkWin(last, i, j, ref count);
+                last = InnerCheckWin(last, i, j, ref count);
             }
         }
     }
+
+    private void CheckWinPrincipalDiagonal()
+    {
+        for (int k = 0; k < _dimension; k++)
+        {
+            SquareState last = SquareState.None;
+            int count = 0;
+            for (int i = k, j = 0; i < _dimension; i++, j++)
+            {
+                last = InnerCheckWin(last, i, j, ref count);
+            }
+        }
+    }
+
+    private void CheckWinVertical()
+    {
+        for (int j = 0; j < _dimension; j++)
+        {
+            SquareState last = SquareState.None;
+            int count = 0;
+            for (int i = 0; i < _dimension; i++)
+            {
+                last = InnerCheckWin(last, i, j, ref count);
+            }
+        }
+    }
+
+    private void CheckWinHorizontal()
+    {
+        for (int i = 0; i < _dimension; i++)
+        {
+            SquareState last = SquareState.None;
+            int count = 0;
+            for (int j = 0; j < _dimension; j++)
+            {
+                last = InnerCheckWin(last, i, j, ref count);
+            }
+        }
+    }
+
+    private SquareState InnerCheckWin(SquareState last, int i, int j, ref int count)
+    {
+        last &= _squares[i, j].SquareState;
+        if (last == SquareState.None)
+        {
+            last = _squares[i, j].SquareState;
+            count = 1;
+        }
+        else
+            count++;
+
+        if (count == 3)
+        {
+            Win(last);
+        }
+
+        return last;
+    }
+    
+    #endregion
 
     private void Win(SquareState winner)
     {
