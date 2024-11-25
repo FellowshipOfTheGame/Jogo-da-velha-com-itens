@@ -12,9 +12,10 @@ public class VelhaBoard : MonoBehaviour
     private RectTransform _rectTransform;
     public GameObject squarePrefab;
 
-    private VelhaSquare[,] _squares;
+    public VelhaSquare[,] squares;
     
     private uint _dimension;
+    private int _marksCountForWin = 3; 
     private float _gap = 1.2f;
 
     private void OnEnable(){
@@ -27,7 +28,7 @@ public class VelhaBoard : MonoBehaviour
 
     private void DrawSquares(uint dimension,float gap)
     {
-        _squares = new VelhaSquare[dimension,dimension];
+        squares = new VelhaSquare[dimension,dimension];
         _dimension = dimension;
         
         var sqsize = CalculateSquareSize(dimension, gap);
@@ -41,8 +42,8 @@ public class VelhaBoard : MonoBehaviour
                 var square = Instantiate(squarePrefab,transform);
                 
                 //Sets Square Up
-                _squares[i, j] = square.GetComponent<VelhaSquare>();
-                _squares[i, j].Setup(i,j);
+                squares[i, j] = square.GetComponent<VelhaSquare>();
+                squares[i, j].Setup(i,j);
                 
                 //Sets size and position of each square
                 var squareRectTransform = square.GetComponent<RectTransform>();
@@ -77,17 +78,9 @@ public class VelhaBoard : MonoBehaviour
         if (item is null)
             return;
         
-        if (!item.Activate(this, _squares[x, y], playerManager.TurnPlayer))
+        if (!item.Activate(this, squares[x, y], playerManager.TurnPlayer))
             return;
         playerManager.GetCurrentPlayerItems().ConfirmItemSelection();
-        
-        
-        // if (_squares[x,y].SquareState != SquareState.None) return;
-        //
-        // if (clickActor == ClickEffect.ClickActor.Player1)
-        //     _squares[x,y].SquareState = SquareState.X;
-        // else if(clickActor == ClickEffect.ClickActor.Player2)
-        //     _squares[x,y].SquareState = SquareState.O;
         
         CheckWin();
         playerManager.PassTurn();
@@ -95,7 +88,7 @@ public class VelhaBoard : MonoBehaviour
 
     public void Eraser(int x, int y)
     {
-        _squares[x,y].SquareState = SquareState.None;
+        squares[x,y].SquareState = SquareState.None;
         
         //TODO Turn passes?
         //ClickEffect.ClickActor();
@@ -110,8 +103,8 @@ public class VelhaBoard : MonoBehaviour
         SquareState[,] temp = new SquareState[_dimension,_dimension];
         for (int i = 0; i < _dimension; i++)
             for (int j = 0; j < _dimension; j++)
-                if (_squares[i, j].isProtected)
-                    temp[i, j] = _squares[i,j].SquareState;
+                if (squares[i, j].isProtected)
+                    temp[i, j] = squares[i,j].SquareState;
                 else
                     temp[i, j] = SquareState.None;
         
@@ -121,13 +114,13 @@ public class VelhaBoard : MonoBehaviour
             for (int j = 0; j < _dimension; j++)
                 if (temp[i, j] != SquareState.None)
                 {
-                    _squares[i,j].SquareState = temp[i, j];
+                    squares[i,j].SquareState = temp[i, j];
                 }
     }
 
     public void SetProtected(int x, int y)
     {
-        _squares[x, y].isProtected = true;
+        squares[x, y].isProtected = true;
     }
 
     
@@ -194,16 +187,16 @@ public class VelhaBoard : MonoBehaviour
 
     private SquareState InnerCheckWin(SquareState last, int i, int j, ref int count)
     {
-        last &= _squares[i, j].SquareState;
+        last &= squares[i, j].SquareState;
         if (last == SquareState.None)
         {
-            last = _squares[i, j].SquareState;
+            last = squares[i, j].SquareState;
             count = 1;
         }
         else
             count++;
 
-        if (count == 3)
+        if (count == _marksCountForWin)
         {
             Win(last);
         }
@@ -216,5 +209,6 @@ public class VelhaBoard : MonoBehaviour
     private void Win(SquareState winner)
     {
         Debug.Log(winner);
+        // TODO passar a cena
     }
 }

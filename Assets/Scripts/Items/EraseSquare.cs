@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class FireBall : ItemBase
+public class EraseSquare : ItemBase
 {
     public override string Name => "Bola de fogo";
     public override Sprite Icon => null;
@@ -9,6 +9,13 @@ public class FireBall : ItemBase
 
     public override bool Activate(VelhaBoard board, VelhaSquare square, Player player)
     {
-        throw new System.NotImplementedException();
+        if (square.isProtected)
+        {
+            square.isProtected = false;
+            return true;
+        }
+
+        square.SquareState = SquareState.None;
+        return true;
     }
 }
