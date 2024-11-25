@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class NormalPlay : ItemBase
 {
-    public override string Name => "";
+    public override string Name => "Jogada comum";
     public override Sprite Icon => null;
     public override string Explanation => "";
     public override int Cost => 0;

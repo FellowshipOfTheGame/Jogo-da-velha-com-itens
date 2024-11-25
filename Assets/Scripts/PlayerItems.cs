@@ -4,23 +4,19 @@ using UnityEngine.UI;
 
 public abstract class PlayerItems : MonoBehaviour
 {
-    protected ItemButton currentSelectedItem;
+    [SerializeField] private Player owner; 
+    public ItemButton currentSelectedItem;
     [SerializeField] protected PlayerManager playerManager;
     public List<ItemButton> Items  { get; } = new();
 
     public void ToggleItemSelected(ItemButton item)
     {
+        if (owner != playerManager.TurnPlayer)
+            return;
         currentSelectedItem?.ToggleItemSelected();
         currentSelectedItem = item;
         currentSelectedItem.ToggleItemSelected();   
     }
 
-    public ItemBase ConfirmItemSelection()
-    {
-        Items.Add(currentSelectedItem);
-        Instantiate(currentSelectedItem.GetComponent<Button>().image, transform);
-        var toReturn = currentSelectedItem.Item;
-        currentSelectedItem = null;
-        return toReturn;
-    }
+    public abstract void ConfirmItemSelection();
 }

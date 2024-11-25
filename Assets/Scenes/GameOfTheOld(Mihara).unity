@@ -207,6 +207,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4fa2458054a6e8489331851e86e311d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: 0
+  currentSelectedItem: {fileID: 0}
   playerManager: {fileID: 354955822}
   _itemCardPrefab: {fileID: -8805987947326262079, guid: 3b1c4c69a72f77045be2f76e59d65751, type: 3}
   _playerDeck: {fileID: 1055816487}
@@ -2744,7 +2746,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1793772415}
   m_HandleRect: {fileID: 1793772414}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -3277,7 +3279,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2107334830}
   m_HandleRect: {fileID: 2107334829}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -3371,6 +3373,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4fa2458054a6e8489331851e86e311d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: 1
+  currentSelectedItem: {fileID: 0}
   playerManager: {fileID: 354955822}
   _itemCardPrefab: {fileID: -8805987947326262079, guid: 3b1c4c69a72f77045be2f76e59d65751, type: 3}
   _playerDeck: {fileID: 480482494}

@@ -369,6 +369,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6faf50ae6b14af4a1adadd5a313a764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: 1
+  currentSelectedItem: {fileID: 0}
   playerManager: {fileID: 1060347612}
 --- !u!1 &176785457
 GameObject:
@@ -672,6 +674,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6faf50ae6b14af4a1adadd5a313a764, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: 0
+  currentSelectedItem: {fileID: 0}
   playerManager: {fileID: 1060347612}
 --- !u!1 &519420028
 GameObject:
@@ -2200,7 +2204,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2041937113}
   m_HandleRect: {fileID: 2041937112}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:

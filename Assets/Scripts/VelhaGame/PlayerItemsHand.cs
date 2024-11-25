@@ -14,6 +14,23 @@ public class PlayerItemsHand : PlayerItems
         }
         
     }
+    
+    public override void ConfirmItemSelection()
+    {
+        if (currentSelectedItem is null)
+            return;
+        Items.Remove(currentSelectedItem);
+        DestroyUsedCard();
+        currentSelectedItem = null;
+    }
+
+    private void DestroyUsedCard()
+    {
+        if (currentSelectedItem.Item.Name != "Jogada comum")
+            Destroy(currentSelectedItem.gameObject);
+        else
+            currentSelectedItem.ToggleItemSelected();
+    }
 
     private void DrawCard()
     {
