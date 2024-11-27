@@ -9,7 +9,7 @@ public abstract class PlayerItems : MonoBehaviour
     [SerializeField] protected PlayerManager playerManager;
     public List<ItemButton> Items  { get; } = new();
 
-    public void ToggleItemSelected(ItemButton item)
+    public virtual void ToggleItemSelected(ItemButton item)
     {
         if (owner != playerManager.TurnPlayer)
             return;

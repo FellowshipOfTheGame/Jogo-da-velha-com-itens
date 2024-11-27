@@ -31,23 +31,6 @@ public class VelhaSquare : MonoBehaviour
     private void ResolveClick(int x, int y)
     {
         _parentBoard.SquareClick(x, y);
-        return;
-        // ClickEffect.ClickEffectType mode = ClickEffect.GetCurrSelectionMode();
-        //
-        // switch (mode){
-        //     case ClickEffect.ClickEffectType.NormalClick:
-        //         _parentBoard.SquareClick(x,y,ClickEffect.GetCurrPlayer());
-        //         break;
-        //     case ClickEffect.ClickEffectType.Eraser:
-        //         _parentBoard.Eraser(x,y);
-        //         break;
-        //     case ClickEffect.ClickEffectType.Protect:
-        //         _parentBoard.SetProtected(x, y);
-        //         break;
-        //     
-        // }
-        //
-        // ClickEffect.ResetSelectionMode();
     }
     
     private void UpdateSquare()
@@ -61,18 +44,14 @@ public class VelhaSquare : MonoBehaviour
             case SquareState.O:
                 squareImage.color = Color.blue;
                 break;
-            case SquareState.None:
             case SquareState.Both:
+                squareImage.color = Color.magenta;
+                break;
+            case SquareState.None:
                 squareImage.color = Color.white;
                 break;
         }
     }
-
-    private void Expand()=>
-        throw new NotImplementedException();
-
-    private void Collapse()=>
-        throw new NotImplementedException();
 }
 
 [Flags]

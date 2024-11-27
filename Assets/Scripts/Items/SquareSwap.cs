@@ -9,6 +9,9 @@ public class SquareSwap : ItemBase
 
     public override bool Activate(VelhaBoard board, VelhaSquare square, Player player)
     {
+        if (square.SquareState != SquareState.O && square.SquareState != SquareState.X)
+            return false;
+        
         if (square.isProtected)
         {
             square.isProtected = false;

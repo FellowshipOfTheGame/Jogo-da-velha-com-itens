@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public abstract class ItemBase : MonoBehaviour
@@ -7,4 +8,5 @@ public abstract class ItemBase : MonoBehaviour
     public abstract string Explanation { get; }
     public abstract int Cost { get; }
     public abstract bool Activate(VelhaBoard board, VelhaSquare square, Player player);
+    public virtual ItemBase SecondClickEffect => null;
 }

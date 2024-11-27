@@ -19,7 +19,7 @@ public class InvertPieces : ItemBase
             if (s.SquareState is SquareState.Both or SquareState.None)
                 continue;
             
-            s.SquareState = player == Player.X ? SquareState.X : SquareState.O; 
+            s.SquareState = s.SquareState == SquareState.O ? SquareState.X : SquareState.O; 
         }
         return true;
     }

@@ -1,18 +1,18 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerItemsHand : PlayerItems
 {
     [SerializeField] private ItemCard _itemCardPrefab;
     [SerializeField] private PlayerDeck _playerDeck;
 
+    private bool _canSelectItem = true;
+
     private void Start()
     {
-        for (var i = 0; i < _startingHandSize; i++)
-        {
+        for (var i = 0; i < _maxHandSize; i++)
             DrawCard();
-        }
-        
     }
     
     public override void ConfirmItemSelection()
@@ -21,7 +21,23 @@ public class PlayerItemsHand : PlayerItems
             return;
         Items.Remove(currentSelectedItem);
         DestroyUsedCard();
+        if (currentSelectedItem.Item.SecondClickEffect)
+        {
+            currentSelectedItem.Item = currentSelectedItem.Item.SecondClickEffect;
+            _canSelectItem = false;
+            return;
+        }
+
+        _canSelectItem = true;
         currentSelectedItem = null;
+        if (Items.Count < _maxHandSize)
+            DrawCard();
+    }
+
+    public override void ToggleItemSelected(ItemButton item)
+    {
+        if (!_canSelectItem) return;
+        base.ToggleItemSelected(item);
     }
 
     private void DestroyUsedCard()
@@ -40,5 +56,5 @@ public class PlayerItemsHand : PlayerItems
         Items.Add(card);
     }
 
-    [SerializeField] private int _startingHandSize = 5;
+    [FormerlySerializedAs("_startingHandSize")] [SerializeField] private int _maxHandSize = 5;
 }

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,10 @@ public abstract class ItemButton : MonoBehaviour
     {
         Button btn = gameObject.GetComponent<Button>();
         btn.onClick.AddListener(() => PlayerItems.ToggleItemSelected(this));
+        
+        // colocar texto no botao enquanto nao tem imagem
+        if (Item.Name != "Jogada comum")
+            btn.GetComponentInChildren<TextMeshProUGUI>().text = Item.Name;
     }
 
     public virtual void ToggleItemSelected()

@@ -14,7 +14,7 @@ public class VelhaBoard : MonoBehaviour
 
     public VelhaSquare[,] squares;
     
-    private uint _dimension;
+    public int _dimension;
     private int _marksCountForWin = 3; 
     private float _gap = 1.2f;
 
@@ -26,7 +26,7 @@ public class VelhaBoard : MonoBehaviour
     private bool AccessibleSquare(int x, int y) =>
          x >= 0 && x < _dimension && y >= 0 && y < _dimension;
 
-    private void DrawSquares(uint dimension,float gap)
+    private void DrawSquares(int dimension,float gap)
     {
         squares = new VelhaSquare[dimension,dimension];
         _dimension = dimension;
@@ -56,7 +56,7 @@ public class VelhaBoard : MonoBehaviour
         }
     }
 
-    private float CalculateSquareSize(uint dimension, float gap)
+    private float CalculateSquareSize(int dimension, float gap)
     {
         //BoardSize
         float width = _rectTransform.sizeDelta[0];
@@ -81,6 +81,10 @@ public class VelhaBoard : MonoBehaviour
         if (!item.Activate(this, squares[x, y], playerManager.TurnPlayer))
             return;
         playerManager.GetCurrentPlayerItems().ConfirmItemSelection();
+        
+        // tem um segundo efeito a ser resolvido 
+        if (playerManager.GetCurrentPlayerItems().currentSelectedItem?.Item)
+            return;
         
         CheckWin();
         playerManager.PassTurn();
