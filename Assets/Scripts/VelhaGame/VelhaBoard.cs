@@ -1,14 +1,11 @@
-using System;
-using System.Drawing;
 using Unity.Mathematics;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.UI;
-using Color = UnityEngine.Color;
 
 public class VelhaBoard : MonoBehaviour
 {
     [SerializeField] private PlayerManager playerManager;
+    [SerializeField] private VictorySceneSwapper sceneSwapper;
+    
     private RectTransform _rectTransform;
     public GameObject squarePrefab;
 
@@ -216,7 +213,6 @@ public class VelhaBoard : MonoBehaviour
 
     private void Win(SquareState winner)
     {
-        Debug.Log(winner);
-        // TODO passar a cena
+        sceneSwapper.FinishGame(winner == SquareState.X ? Player.X : Player.O);
     }
 }

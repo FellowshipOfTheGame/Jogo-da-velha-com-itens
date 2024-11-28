@@ -11,8 +11,8 @@ public class SceneSwapper : MonoBehaviour
     private ItemBase[] oItems;
     public void FinishItemSelection()
     {
-        xItems = playerManager.GetCurrentPlayerItems().Items.Select(i => i.Item).ToArray();
-        oItems = playerManager.GetCurrentPlayerItems().Items.Select(i => i.Item).ToArray();
+        xItems = playerManager.XPlayerItems.Items.Select(i => i.Item).ToArray(); 
+        oItems = playerManager.OPlayerItems.Items.Select(i => i.Item).ToArray();
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
@@ -24,12 +24,13 @@ public class SceneSwapper : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        playerManager = GameObject.Find("PlayerManager").GetComponent<PlayerManager>();
+        playerManager = GameObject.Find("PlayerManager")?.GetComponent<PlayerManager>();
         var xDeck = GameObject.Find("XItemsPanel/Deck")?.GetComponent<PlayerDeck>();
         var oDeck = GameObject.Find("OItemsPanel/Deck")?.GetComponent<PlayerDeck>();
         if (xDeck is null) return;
 
         xDeck.AvailableItems = xItems;
         oDeck.AvailableItems = oItems;
+        Destroy(gameObject);
     }
 }

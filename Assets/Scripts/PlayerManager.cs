@@ -5,8 +5,8 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     public Player TurnPlayer { get; private set; }
-    [SerializeField] private PlayerItems XPlayerItems;
-    [SerializeField] private PlayerItems OPlayerItems;
+    public PlayerItems XPlayerItems;
+    public PlayerItems OPlayerItems;
     
     public void PassTurn()
     {
