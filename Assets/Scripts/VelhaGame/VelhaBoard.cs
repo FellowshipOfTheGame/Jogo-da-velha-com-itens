@@ -74,16 +74,20 @@ public class VelhaBoard : MonoBehaviour
     //Every Move is Implemented In the Board
     public void SquareClick(int x, int y)
     {
-        ItemBase item = playerManager.GetCurrentPlayerItems().currentSelectedItem?.Item;
+        var playerItems = (PlayerItemsHand)playerManager.GetCurrentPlayerItems();
+        ItemBase item = playerItems.currentSelectedItem?.Item;
         if (item is null)
+            return;
+        
+        if (!playerItems.CanActivateItem())
             return;
         
         if (!item.Activate(this, squares[x, y], playerManager.TurnPlayer))
             return;
-        playerManager.GetCurrentPlayerItems().ConfirmItemSelection();
+        playerItems.ConfirmItemSelection();
         
         // tem um segundo efeito a ser resolvido 
-        if (playerManager.GetCurrentPlayerItems().currentSelectedItem?.Item)
+        if (playerItems.currentSelectedItem?.Item)
             return;
         
         CheckWin();

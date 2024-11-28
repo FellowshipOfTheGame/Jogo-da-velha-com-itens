@@ -5,7 +5,7 @@ public class BoardReset : ItemBase
     public override string Name => "Dilúvio";
     public override Sprite Icon => null;
     public override string Explanation => "Apaga todas as peças do tabuleiro";
-    public override int Cost => 4;
+    public override int Cost => 6;
 
     public override bool Activate(VelhaBoard board, VelhaSquare square, Player player)
     {

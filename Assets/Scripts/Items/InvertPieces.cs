@@ -5,7 +5,7 @@ public class InvertPieces : ItemBase
     public override string Name => "Espelho Divino";
     public override Sprite Icon => null;
     public override string Explanation => "Inverte todas as peças do tabuleiro";
-    public override int Cost => 4;
+    public override int Cost => 7;
 
     public override bool Activate(VelhaBoard board, VelhaSquare square, Player player)
     {

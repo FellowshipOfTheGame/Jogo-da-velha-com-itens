@@ -15,7 +15,7 @@ public abstract class ItemButton : MonoBehaviour
         
         // colocar texto no botao enquanto nao tem imagem
         if (Item.Name != "Jogada comum")
-            btn.GetComponentInChildren<TextMeshProUGUI>().text = Item.Name;
+            btn.GetComponentInChildren<TextMeshProUGUI>().text = $"{Item.Name} - {Item.Cost}";
     }
 
     public virtual void ToggleItemSelected()

@@ -6,6 +6,8 @@ public class PlayerItemsHand : PlayerItems
 {
     [SerializeField] private ItemCard _itemCardPrefab;
     [SerializeField] private PlayerDeck _playerDeck;
+    [SerializeField] private ManaManager _manaManager;
+    
 
     private bool _canSelectItem = true;
 
@@ -21,6 +23,8 @@ public class PlayerItemsHand : PlayerItems
             return;
         Items.Remove(currentSelectedItem);
         DestroyUsedCard();
+        _manaManager.ActivateItem(currentSelectedItem.Item);
+        
         if (currentSelectedItem.Item.SecondClickEffect)
         {
             currentSelectedItem.Item = currentSelectedItem.Item.SecondClickEffect;
@@ -30,6 +34,8 @@ public class PlayerItemsHand : PlayerItems
 
         _canSelectItem = true;
         currentSelectedItem = null;
+        _manaManager.IncreaseMana();
+        
         if (Items.Count < _maxHandSize)
             DrawCard();
     }
@@ -39,6 +45,9 @@ public class PlayerItemsHand : PlayerItems
         if (!_canSelectItem) return;
         base.ToggleItemSelected(item);
     }
+
+    public bool CanActivateItem() => 
+        _manaManager.CanActivateItem(currentSelectedItem.Item);
 
     private void DestroyUsedCard()
     {
