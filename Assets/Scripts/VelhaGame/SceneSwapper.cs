@@ -11,6 +11,16 @@ public class VictorySceneSwapper : MonoBehaviour
         _winner = winner;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
+
+    public void XWin()
+    {
+        FinishGame(Player.X);
+    }
+    
+    public void OWin()
+    {
+        FinishGame(Player.O);
+    }
     
     private void Awake()
     {
