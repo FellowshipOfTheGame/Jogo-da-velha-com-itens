@@ -136,6 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerItems: {fileID: 0}
   Item: {fileID: 0}
+  itemDescriptionPrefab: {fileID: 6832248614101846117, guid: 9ba32e1e67282cf46b2934603c8d4cd6, type: 3}
 --- !u!1 &4332259144030586071
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,8 +229,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 75.7
+  m_fontSizeBase: 75.7
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 0
