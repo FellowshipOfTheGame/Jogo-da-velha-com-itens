@@ -213,6 +213,7 @@ public class VelhaBoard : MonoBehaviour
 
     private void Win(SquareState winner)
     {
+        Debug.Log(winner);
         sceneSwapper.FinishGame(winner == SquareState.X ? Player.X : Player.O);
     }
 }

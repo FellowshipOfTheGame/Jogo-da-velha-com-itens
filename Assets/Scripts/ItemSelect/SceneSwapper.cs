@@ -31,6 +31,5 @@ public class SceneSwapper : MonoBehaviour
 
         xDeck.AvailableItems = xItems;
         oDeck.AvailableItems = oItems;
-        Destroy(gameObject);
     }
 }

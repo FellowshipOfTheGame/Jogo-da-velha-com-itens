@@ -51,6 +51,8 @@ public class ItemManager : MonoBehaviour
     
     public void FinishSelection()
     {
+        if (currentPlayerItems.Items.Count < 1)
+            return;
         if (firstPlayerFinished)
         {
             sceneSwapper.FinishItemSelection();
