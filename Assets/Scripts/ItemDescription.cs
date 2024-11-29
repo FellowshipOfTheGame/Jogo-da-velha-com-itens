@@ -14,9 +14,9 @@ public class ItemDescription : MonoBehaviour
     private void Update()
     {
         // gambiarra total melhorar algum dia
-        if (Input.mousePosition.x < 435)
-            transform.position = Input.mousePosition + new Vector3(75, 45);
-        else
-            transform.position = Input.mousePosition + new Vector3(-75, 45);
+        // if (Input.mousePosition.x < 435)
+        //     transform.position = Input.mousePosition + new Vector3(75, 45);
+        // else
+        //     transform.position = Input.mousePosition + new Vector3(-75, 45);
     }
 }

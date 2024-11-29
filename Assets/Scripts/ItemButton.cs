@@ -38,20 +38,24 @@ public abstract class ItemButton : MonoBehaviour, IPointerEnterHandler, IPointer
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if (!itemDescriptionPrefab)
-            return;
-        // gambiarra total melhorar algum dia
-        instantiatedItemDescription = Instantiate(itemDescriptionPrefab);
-        instantiatedItemDescription.transform.SetParent(transform.parent.parent.parent.parent, false);
+        instantiatedItemDescription = GameObject.Find("Canvas/ItemDescription").GetComponent<ItemDescription>();
         instantiatedItemDescription.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = Item.Name;
         instantiatedItemDescription.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = Item.Explanation;
+        // if (!itemDescriptionPrefab)
+        //     return;
+        // // gambiarra total melhorar algum dia
+        // instantiatedItemDescription = Instantiate(itemDescriptionPrefab);
+        // instantiatedItemDescription.transform.SetParent(transform.parent.parent.parent.parent, false);
+        // instantiatedItemDescription.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = Item.Name;
+        // instantiatedItemDescription.transform.GetChild(2).GetComponent<TextMeshProUGUI>().text = Item.Explanation;
     }
     
     public void OnPointerExit(PointerEventData eventData)
     {
-        if (!itemDescriptionPrefab)
-            return;
-        Destroy(instantiatedItemDescription.gameObject);
+        return;
+        // if (!itemDescriptionPrefab)
+        //     return;
+        // Destroy(instantiatedItemDescription.gameObject);
     }
     
     // overrides para verificar se os botoes sao iguais dentro de uma list
