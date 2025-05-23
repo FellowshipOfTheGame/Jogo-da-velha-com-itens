@@ -9,6 +9,7 @@ public abstract class ItemButton : MonoBehaviour, IPointerEnterHandler, IPointer
     public ItemBase Item;
     protected bool isSelected;
     [SerializeField] private ItemDescription itemDescriptionPrefab;
+    private readonly Color gray25 = new(0.75f, 0.75f, 0.75f);
     
     private ItemDescription instantiatedItemDescription;
     
@@ -17,9 +18,14 @@ public abstract class ItemButton : MonoBehaviour, IPointerEnterHandler, IPointer
         Button btn = gameObject.GetComponent<Button>();
         btn.onClick.AddListener(() => PlayerItems.ToggleItemSelected(this));
         
+        Image btnImage = btn.GetComponent<Image>();
+        btnImage.sprite = Item.Icon;
+        btnImage.enabled = true; // make sure the image is enabled
+        btn.GetComponentInChildren<TextMeshProUGUI>().text = "";
+        
         // colocar texto no botao enquanto nao tem imagem
-        if (Item.Name != "Jogada comum")
-            btn.GetComponentInChildren<TextMeshProUGUI>().text = $"{Item.Name} - {Item.Cost}";
+        // if (Item.Name != "Jogada comum")
+        //     btn.GetComponentInChildren<TextMeshProUGUI>().text = $"{Item.Name} - {Item.Cost}";
     }
 
     public virtual void ToggleItemSelected()
@@ -32,7 +38,7 @@ public abstract class ItemButton : MonoBehaviour, IPointerEnterHandler, IPointer
         else
         {
             isSelected = true;
-            gameObject.GetComponent<Image>().color = Color.red;
+            gameObject.GetComponent<Image>().color = gray25;
         }
     }
 
